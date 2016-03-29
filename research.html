@@ -10,6 +10,13 @@
 <link rel="stylesheet" type="text/css" href="css/photobaner.css" />
 
 <style type="text/css">
+#info {
+				position: relative;
+				top: 0px;
+				width: 100%;
+				text-align: center;
+				z-index: 1000;
+			}
 span{font-weight:bold;}
 #Container{
     width:80%;
@@ -49,6 +56,10 @@ overflow:hidden;
 	</div>
 	<div id="Contents">
 		<div id="canvas">
+			<div id="info">
+				<div>+/-: Increase/Decrease point size</div>
+				<div>c: Toggle color</div>
+			</div>
 	    	<script src="js/three.min.js"></script>
 			<script src="js/PCDLoader.js"></script>
 			<script src="js/TrackballControls.js"></script>
@@ -129,7 +140,7 @@ overflow:hidden;
 
 			function keyboard ( ev ) {
 
-				var ZaghettoMesh = scene.getObjectByName( "Zaghetto.pcd" );
+				var ZaghettoMesh = scene.getObjectByName( "2.pcd" );
 
 				switch ( ev.key ) {
 

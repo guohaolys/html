@@ -100,6 +100,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		  {
 		  echo "Error creating database: " . mysql_error();
 		  }
+		  
+		 mysql_select_db("html131class",$link);
+		 $sql_131table="CREATE TABLE IF NOT EXISTS `visitor` (";
+		$sql_131table.="`id`  int NOT NULL AUTO_INCREMENT ,";
+		$sql_131table.="`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`email`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`comment`  varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`website`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`sex`  varchar(255) NULL ,";
+		$sql_131table.="PRIMARY KEY (`id`))";
+		$sql_131table.="ENGINE=MyISAM DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci CHECKSUM=0 DELAY_KEY_WRITE=0;";
+		if (mysql_query($sql_131table,$link))
+		  {
+		  echo "table visitor created sentence run smoothly";
+		  }
+		else
+		  {
+		  echo "Error creating tables: " . mysql_error();
+		  }
+
+
 
 		mysql_close ( $link );
    }

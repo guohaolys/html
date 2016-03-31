@@ -91,7 +91,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    {
 		$link = mysql_connect ( 'localhost', 'root', 'guohao' ) or die ( 'Could not connect: ' . mysql_error () );
 		echo 'Connected successfully';
-		
+		//CREATE DATABASE html131class CHARACTER SET utf8 COLLATE utf8_general_ci;
+		if (mysql_query("CREATE DATABASE IF NOT EXISTS html131class CHARACTER SET utf8 COLLATE utf8_general_ci",$link))
+		  {
+		  echo "Database html131class created sentence run smoothly";
+		  }
+		else
+		  {
+		  echo "Error creating database: " . mysql_error();
+		  }
+
 		mysql_close ( $link );
    }
 }

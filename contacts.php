@@ -31,6 +31,18 @@ background: ghostwhite;
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
 
 </head>
+<?php
+// define variables and set to empty values
+$name = $email = $gender = $comment = $website = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   $name = $_POST["name"];
+   $email = $_POST["email"];
+   $website = $_POST["website"];
+   $comment = $_POST["comment"];
+   $gender = $_POST["gender"];
+}
+?>
 <body>
 <div id="Container">
 	<div id="Header">
@@ -43,7 +55,7 @@ background: ghostwhite;
 			<li><a href="./interest.html">个人兴趣</a></li>
 			<li><a href="./research.html">科研教学</a></li>
 			<li><a href="./contribution.html">社会贡献</a></li>
-			<li><a href="./contacts.html">联系方式</a></li>
+			<li><a href="./contacts.php">联系方式</a></li>
 		</ul>
 	</div>
 	<div id="Contents">
@@ -86,6 +98,17 @@ background: ghostwhite;
 					</tr>
 				</table>
 			</form>
+				<?php
+				echo $name;
+				echo "<br>";
+				echo $email;
+				echo "<br>";
+				echo $website;
+				echo "<br>";
+				echo $comment;
+				echo "<br>";
+				echo $gender;
+				?>
 		</div>
 		<div style="height:250px;border:#ccc solid 1px;  margin: auto;" id="dituContent"></div>
 		<div id='footer' class='footer' ></div>

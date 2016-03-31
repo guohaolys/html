@@ -26,6 +26,8 @@ margin: auto;/*设置整个容器在浏览器中水平居中*/
 height:500px;
 background: ghostwhite;
 }
+.error {color: #FF0000;}
+
 </style>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
@@ -34,13 +36,114 @@ background: ghostwhite;
 <?php
 // define variables and set to empty values
 $name = $email = $gender = $comment = $website = "";
-
+$nameErr = $emailErr = $genderErr = $websiteErr = "";
+$error_count=0;
+$bingo_recording=0;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   $name = $_POST["name"];
-   $email = $_POST["email"];
-   $website = $_POST["website"];
-   $comment = $_POST["comment"];
-   $gender = $_POST["gender"];
+   if (empty($_POST["name"])) {
+     $nameErr = "姓名是必填的";
+	 $error_count++;
+   } else {
+     $name = test_input($_POST["name"]);
+     // 检查姓名是否包含字母和空白字符
+     if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+       $nameErr = "只允许字母和空格"; 
+	   $error_count++;
+     }
+   }
+   
+   if (empty($_POST["email"])) {
+     $emailErr = "电邮是必填的";
+	  $error_count++;
+   } else {
+     $email = test_input($_POST["email"]);
+     // 检查电子邮件地址语法是否有效
+     if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
+       $emailErr = "无效的 email 格式"; 
+	    $error_count++;
+     }
+   }
+     
+   if (empty($_POST["website"])) {
+     $website = "";
+   } else {
+     $website = test_input($_POST["website"]);
+     // 检查 URL 地址语法是否有效（正则表达式也允许 URL 中的斜杠）
+     if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
+       $websiteErr = "无效的 URL"; 
+	    $error_count++;
+     }
+   }
+
+   if (empty($_POST["comment"])) {
+     $comment = "";
+   } else {
+     $comment = test_input($_POST["comment"]);
+   }
+
+   if (empty($_POST["gender"])) {
+     $genderErr = "性别是必选的";
+	  $error_count++;
+   } else {
+     $gender = test_input($_POST["gender"]);
+   }
+   if($error_count==0)
+   {
+		$link = mysql_connect ( 'localhost', 'root', 'guohao' ) or die ( 'Could not connect: ' . mysql_error () );
+		//echo 'Connected successfully';
+		//CREATE DATABASE html131class CHARACTER SET utf8 COLLATE utf8_general_ci;
+		if (mysql_query("CREATE DATABASE IF NOT EXISTS html131class CHARACTER SET utf8 COLLATE utf8_general_ci",$link))
+		  {
+		 // echo "Database html131class created sentence run smoothly";
+		  }
+		else
+		  {
+		  echo "Error creating database: " . mysql_error();
+		  $bingo_recording++;
+		  }
+		  
+		 mysql_select_db("html131class",$link);
+		 $sql_131table="CREATE TABLE IF NOT EXISTS `visitor` (";
+		$sql_131table.="`id`  int NOT NULL AUTO_INCREMENT ,";
+		$sql_131table.="`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`email`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`comment`  varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`website`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,";
+		$sql_131table.="`sex`  varchar(255) NULL ,";
+		$sql_131table.="PRIMARY KEY (`id`))";
+		$sql_131table.="ENGINE=MyISAM DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci CHECKSUM=0 DELAY_KEY_WRITE=0;";
+		if (mysql_query($sql_131table,$link))
+		  {
+		 // echo "table visitor created sentence run smoothly";
+		  }
+		else
+		  {
+		  echo "Error creating tables: " . mysql_error();
+		  $bingo_recording++;
+		  }
+		//INSERT INTO `visitor` (`name`, `email`, `comment`, `website`, `sex`) VALUES ('guohao', 'sadfa', 'adfasf', 'asdfasdf', 'fads')
+		$sql_131record="INSERT INTO `visitor` (`name`, `email`, `comment`, `website`, `sex`) VALUES ('$name','$email','$comment','$website','$gender')";
+		if (mysql_query($sql_131record,$link))
+		  {
+		 // echo "record visitor created sentence run smoothly";
+		  }
+		else
+		  {
+		  echo "Error creating record: " . mysql_error();
+		  $bingo_recording++;
+		  }
+
+		  
+		mysql_close ( $link );
+   }
+}
+
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
 }
 ?>
 <body>
@@ -75,9 +178,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<legend>来访者信息</legend>
 				<table>
 					<tr>
-					<td>姓名：<input type="text" name="name"></td>
-					<td>电邮：<input type="text" name="email"></td>
-					<td>网址：<input type="text" name="website"></td>
+					<td>姓名：<input type="text" name="name"> <span class="error">* <?php echo $nameErr;?></span></td>
+					<td>电邮：<input type="text" name="email"> <span class="error">* <?php echo $emailErr;?></span></td>
+					<td>网址：<input type="text" name="website"> <span class="error"><?php echo $websiteErr;?></span></td>
 					</tr>
 					<tr>
 					<td colspan="3">
@@ -89,6 +192,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					性别：
 					   <input type="radio" name="gender" value="female">女性
 					   <input type="radio" name="gender" value="male">男性
+					   <span class="error">* <?php echo $genderErr;?></span>
+
 					</td>
 					</tr>
 					<tr>
@@ -99,15 +204,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				</table>
 			</form>
 				<?php
-				echo $name;
-				echo "<br>";
-				echo $email;
-				echo "<br>";
-				echo $website;
-				echo "<br>";
-				echo $comment;
-				echo "<br>";
-				echo $gender;
+				if($bingo_recording>0|$error_count>0)echo "抱歉未能够正常保持您的留言，请重新输入!";
+				if($_SERVER["REQUEST_METHOD"] == "POST"&&$error_count==0&&$bingo_recording==0)echo "很高兴能够收到您的留言!";
 				?>
 		</div>
 		<div style="height:250px;border:#ccc solid 1px;  margin: auto;" id="dituContent"></div>

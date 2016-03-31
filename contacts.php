@@ -119,9 +119,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		  {
 		  echo "Error creating tables: " . mysql_error();
 		  }
+		//INSERT INTO `visitor` (`name`, `email`, `comment`, `website`, `sex`) VALUES ('guohao', 'sadfa', 'adfasf', 'asdfasdf', 'fads')
+		$sql_131record="INSERT INTO `visitor` (`name`, `email`, `comment`, `website`, `sex`) VALUES ('$name','$email','$comment','$website','$gender')";
+		if (mysql_query($sql_131record,$link))
+		  {
+		  echo "record visitor created sentence run smoothly";
+		  }
+		else
+		  {
+		  echo "Error creating record: " . mysql_error();
+		  }
 
-
-
+		  
 		mysql_close ( $link );
    }
 }

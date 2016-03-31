@@ -38,7 +38,7 @@ background: ghostwhite;
 $name = $email = $gender = $comment = $website = "";
 $nameErr = $emailErr = $genderErr = $websiteErr = "";
 $error_count=0;
-
+$bingo_recording=0;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    if (empty($_POST["name"])) {
      $nameErr = "姓名是必填的";
@@ -90,15 +90,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    if($error_count==0)
    {
 		$link = mysql_connect ( 'localhost', 'root', 'guohao' ) or die ( 'Could not connect: ' . mysql_error () );
-		echo 'Connected successfully';
+		//echo 'Connected successfully';
 		//CREATE DATABASE html131class CHARACTER SET utf8 COLLATE utf8_general_ci;
 		if (mysql_query("CREATE DATABASE IF NOT EXISTS html131class CHARACTER SET utf8 COLLATE utf8_general_ci",$link))
 		  {
-		  echo "Database html131class created sentence run smoothly";
+		 // echo "Database html131class created sentence run smoothly";
 		  }
 		else
 		  {
 		  echo "Error creating database: " . mysql_error();
+		  $bingo_recording++;
 		  }
 		  
 		 mysql_select_db("html131class",$link);
@@ -113,21 +114,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$sql_131table.="ENGINE=MyISAM DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci CHECKSUM=0 DELAY_KEY_WRITE=0;";
 		if (mysql_query($sql_131table,$link))
 		  {
-		  echo "table visitor created sentence run smoothly";
+		 // echo "table visitor created sentence run smoothly";
 		  }
 		else
 		  {
 		  echo "Error creating tables: " . mysql_error();
+		  $bingo_recording++;
 		  }
 		//INSERT INTO `visitor` (`name`, `email`, `comment`, `website`, `sex`) VALUES ('guohao', 'sadfa', 'adfasf', 'asdfasdf', 'fads')
 		$sql_131record="INSERT INTO `visitor` (`name`, `email`, `comment`, `website`, `sex`) VALUES ('$name','$email','$comment','$website','$gender')";
 		if (mysql_query($sql_131record,$link))
 		  {
-		  echo "record visitor created sentence run smoothly";
+		 // echo "record visitor created sentence run smoothly";
 		  }
 		else
 		  {
 		  echo "Error creating record: " . mysql_error();
+		  $bingo_recording++;
 		  }
 
 		  
@@ -201,15 +204,8 @@ function test_input($data) {
 				</table>
 			</form>
 				<?php
-				echo $name;
-				echo "<br>";
-				echo $email;
-				echo "<br>";
-				echo $website;
-				echo "<br>";
-				echo $comment;
-				echo "<br>";
-				echo $gender;
+				if($bingo_recording>0|$error_count>0)echo "抱歉未能够正常保持您的留言，请重新输入!";
+				if($_SERVER["REQUEST_METHOD"] == "POST"&&$error_count==0&&$bingo_recording==0)echo "很高兴能够收到您的留言!";
 				?>
 		</div>
 		<div style="height:250px;border:#ccc solid 1px;  margin: auto;" id="dituContent"></div>

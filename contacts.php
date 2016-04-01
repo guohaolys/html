@@ -43,6 +43,12 @@ background: ghostwhite;
   background-color:#A7C942;
   color:#ffffff;
   }
+  #history_records_table td, #history_records_table th 
+  {
+  font-size:1em;
+  border:1px solid #98bf21;
+  padding:3px 7px 2px 7px;
+  }
 </style>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>

@@ -29,7 +29,9 @@ background: ghostwhite;
 .error {color: #FF0000;}
 #history_records_table
 {
+	 font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
 	 width:100%;
+	 border-collapse:collapse;
 }
 </style>
 

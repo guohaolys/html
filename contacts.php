@@ -27,7 +27,10 @@ height:500px;
 background: ghostwhite;
 }
 .error {color: #FF0000;}
-
+#history_records_table
+{
+	 width:100%;
+}
 </style>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
@@ -242,8 +245,8 @@ function test_input($data) {
 		  echo "Error creating tables: " . mysql_error();
 		  }
 		  $history_records=mysql_query("SELECT * FROM visitor");
-		echo "<div id=history_records>";
-		echo "<table border='1'>
+		echo "<div id=\"history_records\">";
+		echo "<table id=\"history_records_table\" border='1'>
 		<tr>
 		<th>ID</th>
 		<th>姓名</th>

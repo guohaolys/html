@@ -209,7 +209,7 @@ function test_input($data) {
 				?>
 		</div>
 		<div style="height:250px;border:#ccc solid 1px;  margin: auto;" id="dituContent"></div>
-		<div id='footer' class='footer' ></div>
+		
 		<?php
 		$link = mysql_connect ( 'localhost', 'root', 'guohao' ) or die ( 'Could not connect: ' . mysql_error () );
 		//echo 'Connected successfully';
@@ -265,8 +265,9 @@ function test_input($data) {
 		  echo "</tr>";
 		  }
 		echo "</table>";
-		echo "<div>";
+		echo "</div>";
 		?>
+		<div id='footer' class='footer' ></div>
 	</div>
 
 

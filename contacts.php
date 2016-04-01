@@ -27,7 +27,28 @@ height:500px;
 background: ghostwhite;
 }
 .error {color: #FF0000;}
+#history_records_table
+{
+	 font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	 width:100%;
+	 border-collapse:collapse;
+}
 
+#history_records_table th 
+  {
+  font-size:1.1em;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:#A7C942;
+  color:#ffffff;
+  }
+  #history_records_table td, #history_records_table th 
+  {
+  font-size:1em;
+  border:1px solid #98bf21;
+  padding:3px 7px 2px 7px;
+  }
 </style>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
@@ -209,7 +230,7 @@ function test_input($data) {
 				?>
 		</div>
 		<div style="height:250px;border:#ccc solid 1px;  margin: auto;" id="dituContent"></div>
-		<div id='footer' class='footer' ></div>
+		
 		<?php
 		$link = mysql_connect ( 'localhost', 'root', 'guohao' ) or die ( 'Could not connect: ' . mysql_error () );
 		//echo 'Connected successfully';
@@ -242,8 +263,8 @@ function test_input($data) {
 		  echo "Error creating tables: " . mysql_error();
 		  }
 		  $history_records=mysql_query("SELECT * FROM visitor");
-		echo "<div id=history_records>";
-		echo "<table border='1'>
+		echo "<div id=\"history_records\">";
+		echo "<table id=\"history_records_table\" border='1'>
 		<tr>
 		<th>ID</th>
 		<th>姓名</th>
@@ -265,8 +286,9 @@ function test_input($data) {
 		  echo "</tr>";
 		  }
 		echo "</table>";
-		echo "<div>";
+		echo "</div>";
 		?>
+		<div id='footer' class='footer' ></div>
 	</div>
 
 

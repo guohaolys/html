@@ -66,11 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	 $error_count++;
    } else {
      $name = test_input($_POST["name"]);
-     // 检查姓名是否包含字母和空白字符
-     if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
-       $nameErr = "只允许字母和空格";
-	   $error_count++;
-     }
+    
    }
 
    if (empty($_POST["email"])) {
